@@ -1,0 +1,12 @@
+#!/bin/sh
+# Convert to cURL config file from "copy as cURL" within Google Chrome DevTools
+
+if [ $# -gt 0 ]
+then
+  input="$1"
+else
+  input=/dev/stdin
+fi
+
+command grep '^  *-[bH]' "$input" |
+  command sed -e 's/"/\\"/g' -e "s/'/\"/g" -e 's/^  *-H/header =/' -e 's/^  *-b/cookie =/' -e 's/ \\$//'
